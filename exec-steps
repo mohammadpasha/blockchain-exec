@@ -1,0 +1,320 @@
+(base) veins:~/Documents/Tiny-Blockchain-master/build% python
+Python 3.8.5 (default, Sep  4 2020, 07:30:14) 
+[GCC 7.3.0] :: Anaconda, Inc. on linux
+Type "help", "copyright", "credits" or "license" for more information.
+>>> import requests
+>>> payload= {
+...     "sender": "x",
+...     "recipient": "y", 
+...     "amount":1
+... }
+>>> r= requests.get("http://localhost:6001/mine)
+  File "<stdin>", line 1
+    r= requests.get("http://localhost:6001/mine)
+                                               ^
+SyntaxError: EOL while scanning string literal
+>>> r= requests.get("http://localhost:6001/mine")
+>>> print(r.text)
+{"index":2,"message":"new block forged","previous_hash":"c418b0bb8cd9ac5b33254357a1ec730c4e04ab8f0ebb6f80d46ed66724c38b19","proof":8483,"transactions":[{"amount":1.0,"recipient":"81a81a00256941949b0994bf2053f541","sender":"0"}],"ts":1639934769485}
+>>> r= requests.post("http://localhost:6001/transactions/new", data=payload)
+>>> r= requests.post("http://localhost:6001/transaction/new", data=payload)
+>>> print(r.text)
+400 Bad Request
+
+>>> print(r.body)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+AttributeError: 'Response' object has no attribute 'body'
+>>> print(r.header)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+AttributeError: 'Response' object has no attribute 'header'
+>>> print(r.headers)
+{'Content-Length': '17', 'Server': 'Crow/0.1', 'Date': 'Sun, 19 Dec 2021 17:27:55 GMT', 'Connection': 'Keep-Alive'}
+>>> r= requests.get("http://localhost:6001/mine")
+>>> print(r.text)
+{"index":3,"message":"new block forged","previous_hash":"5f50614d283bd64c8158bd490d96230d04dc0107de1bc921abbd0e522149448e","proof":37551,"transactions":[{"amount":1.0,"recipient":"81a81a00256941949b0994bf2053f541","sender":"0"}],"ts":1639934986212}
+>>> payload= {
+...     "sender": "x",
+...     "recipient": "y", 
+...     "amount":100
+... }
+>>> r= requests.post("http://localhost:6001/transaction/new", data=payload)
+>>> payload= {
+...  "nodes":["localhost:6001", "localhost:6002"]
+... }
+>>> payload= {
+...  "nodes":["localhost:6000", "localhost:6002"]
+... }
+>>> r= requests.post("http://localhost:6001/nodes/register", data=payload)
+>>> r= requests.get("http://localhost:6001/nodes/resolve")
+>>> print(r.text)
+{"chain":[{"index":1,"previous_hash":"1","proof":100,"transactions":null,"ts":1639934488606},{"index":2,"previous_hash":"c418b0bb8cd9ac5b33254357a1ec730c4e04ab8f0ebb6f80d46ed66724c38b19","proof":8483,"transactions":[{"amount":1.0,"recipient":"81a81a00256941949b0994bf2053f541","sender":"0"}],"ts":1639934769485},{"index":3,"previous_hash":"5f50614d283bd64c8158bd490d96230d04dc0107de1bc921abbd0e522149448e","proof":37551,"transactions":[{"amount":1.0,"recipient":"81a81a00256941949b0994bf2053f541","sender":"0"}],"ts":1639934986212},{"index":4,"previous_hash":"c842a0d4fb678c790e0fe635f6bda25571c2210baccd897db3cb15f228237f15","proof":61569,"transactions":[{"amount":1.0,"recipient":"81a81a00256941949b0994bf2053f541","sender":"0"}],"ts":1639935014654},{"index":5,"previous_hash":"09677debe4cc0babf8c1a1585ae24aebac5bad5013c2a3f12e0b0eeb70c74c20","proof":43104,"transactions":[{"amount":1.0,"recipient":"81a81a00256941949b0994bf2053f541","sender":"0"}],"ts":1639935117375},{"index":6,"previous_hash":"401ce7974a6f02c4efd9e1788e2ba030f6a599c3bdf45acbda6265a5ef6e7138","proof":122366,"transactions":[{"amount":1.0,"recipient":"81a81a00256941949b0994bf2053f541","sender":"0"}],"ts":1639935121481}],"length":6,"message":"our chain is authoritative"}
+>>> payload= {'sender': pasha, 'recipient': asad, 'amount': 99}
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+NameError: name 'pasha' is not defined
+>>> payload= {'sender': 'pasha', 'recipient': 'asad', 'amount': 99}
+>>> r= requests.post("http://localhost:6001/transaction/new", data=payload)
+>>> r= requests.post("http://localhost:6000/transaction/new", data=payload)
+Traceback (most recent call last):
+  File "/home/veins/miniconda3/lib/python3.8/site-packages/urllib3/connection.py", line 159, in _new_conn
+    conn = connection.create_connection(
+  File "/home/veins/miniconda3/lib/python3.8/site-packages/urllib3/util/connection.py", line 84, in create_connection
+    raise err
+  File "/home/veins/miniconda3/lib/python3.8/site-packages/urllib3/util/connection.py", line 74, in create_connection
+    sock.connect(sa)
+ConnectionRefusedError: [Errno 111] Connection refused
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/veins/miniconda3/lib/python3.8/site-packages/urllib3/connectionpool.py", line 670, in urlopen
+    httplib_response = self._make_request(
+  File "/home/veins/miniconda3/lib/python3.8/site-packages/urllib3/connectionpool.py", line 392, in _make_request
+    conn.request(method, url, **httplib_request_kw)
+  File "/home/veins/miniconda3/lib/python3.8/http/client.py", line 1255, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+  File "/home/veins/miniconda3/lib/python3.8/http/client.py", line 1301, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+  File "/home/veins/miniconda3/lib/python3.8/http/client.py", line 1250, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/home/veins/miniconda3/lib/python3.8/http/client.py", line 1010, in _send_output
+    self.send(msg)
+  File "/home/veins/miniconda3/lib/python3.8/http/client.py", line 950, in send
+    self.connect()
+  File "/home/veins/miniconda3/lib/python3.8/site-packages/urllib3/connection.py", line 187, in connect
+    conn = self._new_conn()
+  File "/home/veins/miniconda3/lib/python3.8/site-packages/urllib3/connection.py", line 171, in _new_conn
+    raise NewConnectionError(
+urllib3.exceptions.NewConnectionError: <urllib3.connection.HTTPConnection object at 0x7f102dd7bbb0>: Failed to establish a new connection: [Errno 111] Connection refused
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/veins/miniconda3/lib/python3.8/site-packages/requests/adapters.py", line 439, in send
+    resp = conn.urlopen(
+  File "/home/veins/miniconda3/lib/python3.8/site-packages/urllib3/connectionpool.py", line 726, in urlopen
+    retries = retries.increment(
+  File "/home/veins/miniconda3/lib/python3.8/site-packages/urllib3/util/retry.py", line 446, in increment
+    raise MaxRetryError(_pool, url, error or ResponseError(cause))
+urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='localhost', port=6000): Max retries exceeded with url: /transaction/new (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f102dd7bbb0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+  File "/home/veins/miniconda3/lib/python3.8/site-packages/requests/api.py", line 119, in post
+    return request('post', url, data=data, json=json, **kwargs)
+  File "/home/veins/miniconda3/lib/python3.8/site-packages/requests/api.py", line 61, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "/home/veins/miniconda3/lib/python3.8/site-packages/requests/sessions.py", line 530, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/home/veins/miniconda3/lib/python3.8/site-packages/requests/sessions.py", line 643, in send
+    r = adapter.send(request, **kwargs)
+  File "/home/veins/miniconda3/lib/python3.8/site-packages/requests/adapters.py", line 516, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPConnectionPool(host='localhost', port=6000): Max retries exceeded with url: /transaction/new (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f102dd7bbb0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+>>> r= requests.post("http://localhost:6001/transaction/new", data=payload)
+>>> import requests
+>>> payload= {'sender': 'pasha', 'recipient': 'asad', 'amount': 99}
+>>> r= requests.post("http://localhost:6000/transaction/new", data=payload)
+>>> r= requests.get("http://localhost:6000/nodes/resolve")
+>>> print(r.text)
+{"chain":[{"index":1,"previous_hash":"1","proof":100,"transactions":null,"ts":1639935864809}],"length":1,"message":"our chain is authoritative"}
+>>> r= requests.get("http://localhost:6000/mine")
+>>> print(r.text)
+{"index":2,"message":"new block forged","previous_hash":"d379be4b35800a04a65184c35480035626fc381002b1252afa00f96fc91ea64e","proof":119339,"transactions":[{"amount":1.0,"recipient":"fb10c63c36f04ffebf641669905d2ce4","sender":"0"}],"ts":1639935985812}
+>>> print(r.text)
+{"index":2,"message":"new block forged","previous_hash":"d379be4b35800a04a65184c35480035626fc381002b1252afa00f96fc91ea64e","proof":119339,"transactions":[{"amount":1.0,"recipient":"fb10c63c36f04ffebf641669905d2ce4","sender":"0"}],"ts":1639935985812}
+>>> r= requests.get("http://localhost:6000/mine")
+>>> print(r.text)
+{"index":3,"message":"new block forged","previous_hash":"b886ffe9e1ea7677a0507f31f08fb4cd71d68ec1e533c1cb78840f3b1c4fdaba","proof":10428,"transactions":[{"amount":1.0,"recipient":"fb10c63c36f04ffebf641669905d2ce4","sender":"0"}],"ts":1639936028649}
+>>> r= requests.get("http://localhost:6000/chain")
+>>> print(r.text)
+{"chain":[{"index":1,"previous_hash":"1","proof":100,"transactions":null,"ts":1639935864809},{"index":2,"previous_hash":"d379be4b35800a04a65184c35480035626fc381002b1252afa00f96fc91ea64e","proof":119339,"transactions":[{"amount":1.0,"recipient":"fb10c63c36f04ffebf641669905d2ce4","sender":"0"}],"ts":1639935985812},{"index":3,"previous_hash":"b886ffe9e1ea7677a0507f31f08fb4cd71d68ec1e533c1cb78840f3b1c4fdaba","proof":10428,"transactions":[{"amount":1.0,"recipient":"fb10c63c36f04ffebf641669905d2ce4","sender":"0"}],"ts":1639936028649}],"length":3}
+>>> payload= {'sender': 'pasha', 'recipient': 'asad', 'amount': 99}
+>>> r= requests.post("http://localhost:6000/transaction/new", data=payload)
+>>> print(r.text)
+400 Bad Request
+
+>>> payload=
+  File "<stdin>", line 1
+    payload=
+           ^
+SyntaxError: invalid syntax
+>>> payload={
+...     "sender": "x",
+...     "recipient": "y", 
+...     "amount":1
+... }
+>>> payload
+{'sender': 'x', 'recipient': 'y', 'amount': 1}
+>>> payload={
+...     "sender": "0",
+...     "recipient": "fb10c63c36f04ffebf641669905d2ce4", 
+...     "amount":10
+... }
+>>> r= requests.post("http://localhost:6000/transaction/new", data=payload)
+>>> r= requests.post("http://localhost:6000/transaction/news", data=payload)
+>>> print(r.text)
+404 Not Found
+
+>>> import json
+>>> url = 'http://localhost:6000/transaction/new' 
+>>> payload = {"sender": 'a', "recipient": 'm', "amount": 99} 
+>>> r=requests.post(url, data=json.dumps(payload))
+>>> print(r.text)
+transaction will be added to new block
+>>> r= requests.post("http://localhost:6000/transaction/new", data=payload)
+>>> print(r.text)
+400 Bad Request
+
+>>> r= requests.get("http://localhost:6000/chain")
+>>> print(r.text)
+{"chain":[{"index":1,"previous_hash":"1","proof":100,"transactions":null,"ts":1639935864809},{"index":2,"previous_hash":"d379be4b35800a04a65184c35480035626fc381002b1252afa00f96fc91ea64e","proof":119339,"transactions":[{"amount":1.0,"recipient":"fb10c63c36f04ffebf641669905d2ce4","sender":"0"}],"ts":1639935985812},{"index":3,"previous_hash":"b886ffe9e1ea7677a0507f31f08fb4cd71d68ec1e533c1cb78840f3b1c4fdaba","proof":10428,"transactions":[{"amount":1.0,"recipient":"fb10c63c36f04ffebf641669905d2ce4","sender":"0"}],"ts":1639936028649}],"length":3}
+>>> r= requests.get("http://localhost:6000/mine")
+>>> print(r.text)
+{"index":4,"message":"new block forged","previous_hash":"cc0c226e4ee4432de9f7cde9c9d3174cc6a929c00e2891f89d6be3ac78595e9e","proof":8076,"transactions":[{"amount":99.0,"recipient":"m","sender":"a"},{"amount":1.0,"recipient":"fb10c63c36f04ffebf641669905d2ce4","sender":"0"}],"ts":1639937473970}
+>>> r=requests.post(url, data=json.dumps(payload))
+>>> r=requests.post(url, data=json.dumps(payload))
+>>> payload = {"sender": 'a', "recipient": 'm', "amount": 9} 
+>>> r=requests.post(url, data=json.dumps(payload))
+>>> r= requests.get("http://localhost:6000/mine")
+>>> print(r.text)
+{"index":5,"message":"new block forged","previous_hash":"71964da03df6fe8cf41dce8074405cc6b408a9e70443aa778f4269aa953d0fe8","proof":8298,"transactions":[{"amount":99.0,"recipient":"m","sender":"a"},{"amount":99.0,"recipient":"m","sender":"a"},{"amount":9.0,"recipient":"m","sender":"a"},{"amount":1.0,"recipient":"fb10c63c36f04ffebf641669905d2ce4","sender":"0"}],"ts":1639937543643}
+>>> r= requests.get("http://localhost:6000/chain")
+>>> print(r.text)
+{"chain":[{"index":1,"previous_hash":"1","proof":100,"transactions":null,"ts":1639935864809},{"index":2,"previous_hash":"d379be4b35800a04a65184c35480035626fc381002b1252afa00f96fc91ea64e","proof":119339,"transactions":[{"amount":1.0,"recipient":"fb10c63c36f04ffebf641669905d2ce4","sender":"0"}],"ts":1639935985812},{"index":3,"previous_hash":"b886ffe9e1ea7677a0507f31f08fb4cd71d68ec1e533c1cb78840f3b1c4fdaba","proof":10428,"transactions":[{"amount":1.0,"recipient":"fb10c63c36f04ffebf641669905d2ce4","sender":"0"}],"ts":1639936028649},{"index":4,"previous_hash":"cc0c226e4ee4432de9f7cde9c9d3174cc6a929c00e2891f89d6be3ac78595e9e","proof":8076,"transactions":[{"amount":99.0,"recipient":"m","sender":"a"},{"amount":1.0,"recipient":"fb10c63c36f04ffebf641669905d2ce4","sender":"0"}],"ts":1639937473970},{"index":5,"previous_hash":"71964da03df6fe8cf41dce8074405cc6b408a9e70443aa778f4269aa953d0fe8","proof":8298,"transactions":[{"amount":99.0,"recipient":"m","sender":"a"},{"amount":99.0,"recipient":"m","sender":"a"},{"amount":9.0,"recipient":"m","sender":"a"},{"amount":1.0,"recipient":"fb10c63c36f04ffebf641669905d2ce4","sender":"0"}],"ts":1639937543643}],"length":5}
+>>> payload1 = {"nodes":["localhost:6001", "localhost:6002"]}
+>>> r=requests.post(url1, data=json.dumps(payload))
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+NameError: name 'url1' is not defined
+>>> url1 = 'http://localhost:6000/nodes/register' 
+>>> r=requests.post(url1, data=json.dumps(payload1))
+>>> print(r.text)
+new nodes have been added
+
+>>> r= requests.get("http://localhost:6001/chain")
+Traceback (most recent call last):
+  File "/home/veins/miniconda3/lib/python3.8/site-packages/urllib3/connection.py", line 159, in _new_conn
+    conn = connection.create_connection(
+  File "/home/veins/miniconda3/lib/python3.8/site-packages/urllib3/util/connection.py", line 84, in create_connection
+    raise err
+  File "/home/veins/miniconda3/lib/python3.8/site-packages/urllib3/util/connection.py", line 74, in create_connection
+    sock.connect(sa)
+ConnectionRefusedError: [Errno 111] Connection refused
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/veins/miniconda3/lib/python3.8/site-packages/urllib3/connectionpool.py", line 670, in urlopen
+    httplib_response = self._make_request(
+  File "/home/veins/miniconda3/lib/python3.8/site-packages/urllib3/connectionpool.py", line 392, in _make_request
+    conn.request(method, url, **httplib_request_kw)
+  File "/home/veins/miniconda3/lib/python3.8/http/client.py", line 1255, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+  File "/home/veins/miniconda3/lib/python3.8/http/client.py", line 1301, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+  File "/home/veins/miniconda3/lib/python3.8/http/client.py", line 1250, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/home/veins/miniconda3/lib/python3.8/http/client.py", line 1010, in _send_output
+    self.send(msg)
+  File "/home/veins/miniconda3/lib/python3.8/http/client.py", line 950, in send
+    self.connect()
+  File "/home/veins/miniconda3/lib/python3.8/site-packages/urllib3/connection.py", line 187, in connect
+    conn = self._new_conn()
+  File "/home/veins/miniconda3/lib/python3.8/site-packages/urllib3/connection.py", line 171, in _new_conn
+    raise NewConnectionError(
+urllib3.exceptions.NewConnectionError: <urllib3.connection.HTTPConnection object at 0x7f102dd11a00>: Failed to establish a new connection: [Errno 111] Connection refused
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/veins/miniconda3/lib/python3.8/site-packages/requests/adapters.py", line 439, in send
+    resp = conn.urlopen(
+  File "/home/veins/miniconda3/lib/python3.8/site-packages/urllib3/connectionpool.py", line 726, in urlopen
+    retries = retries.increment(
+  File "/home/veins/miniconda3/lib/python3.8/site-packages/urllib3/util/retry.py", line 446, in increment
+    raise MaxRetryError(_pool, url, error or ResponseError(cause))
+urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='localhost', port=6001): Max retries exceeded with url: /chain (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f102dd11a00>: Failed to establish a new connection: [Errno 111] Connection refused'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+  File "/home/veins/miniconda3/lib/python3.8/site-packages/requests/api.py", line 76, in get
+    return request('get', url, params=params, **kwargs)
+  File "/home/veins/miniconda3/lib/python3.8/site-packages/requests/api.py", line 61, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "/home/veins/miniconda3/lib/python3.8/site-packages/requests/sessions.py", line 530, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/home/veins/miniconda3/lib/python3.8/site-packages/requests/sessions.py", line 643, in send
+    r = adapter.send(request, **kwargs)
+  File "/home/veins/miniconda3/lib/python3.8/site-packages/requests/adapters.py", line 516, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPConnectionPool(host='localhost', port=6001): Max retries exceeded with url: /chain (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f102dd11a00>: Failed to establish a new connection: [Errno 111] Connection refused'))
+>>> r= requests.get("http://localhost:6001/chain")
+>>> print(r.text)
+{"chain":[{"index":1,"previous_hash":"1","proof":100,"transactions":null,"ts":1639937766508}],"length":1}
+>>> r= requests.get("http://localhost:6002/chain")
+>>> r= requests.get("http://localhost:6002/mine")
+^[[A
+>>> r= requests.get("http://localhost:6001/mine")
+>>> r= requests.post("http://localhost:6001/transaction/new", data=payload)
+>>> url2 = 'http://localhost:6001/transaction/new' 
+>>> url3 = 'http://localhost:6002/transaction/new' 
+>>> r=requests.post(url2, data=json.dumps(payload1))
+>>> r=requests.post(url3, data=json.dumps(payload1))
+>>> r=requests.post(url3, data=json.dumps(payload))
+>>> r=requests.post(url2, data=json.dumps(payload))
+>>> r= requests.get("http://localhost:6001/mine")
+>>> r= requests.get("http://localhost:6002/mine")
+>>> print(r.text)
+{"index":3,"message":"new block forged","previous_hash":"d317440f1be4eb05a5449352b183f412394180e516da8775d8729745bce47ea5","proof":18476,"transactions":[{"amount":9.0,"recipient":"m","sender":"a"},{"amount":1.0,"recipient":"2e6666e22c094a3683dde249f20eadb6","sender":"0"}],"ts":1639937981881}
+>>> url4 = 'http://localhost:6001/nodes/resolve' 
+>>> r= requests.get("http://localhost:6001/nodes/resolve")
+>>> r= requests.get("http://localhost:6002/nodes/resolve")
+>>> r= requests.get("http://localhost:6000/nodes/resolve")
+>>> print(r.text)
+{"chain":[{"index":1,"previous_hash":"1","proof":100,"transactions":null,"ts":1639935864809},{"index":2,"previous_hash":"d379be4b35800a04a65184c35480035626fc381002b1252afa00f96fc91ea64e","proof":119339,"transactions":[{"amount":1.0,"recipient":"fb10c63c36f04ffebf641669905d2ce4","sender":"0"}],"ts":1639935985812},{"index":3,"previous_hash":"b886ffe9e1ea7677a0507f31f08fb4cd71d68ec1e533c1cb78840f3b1c4fdaba","proof":10428,"transactions":[{"amount":1.0,"recipient":"fb10c63c36f04ffebf641669905d2ce4","sender":"0"}],"ts":1639936028649},{"index":4,"previous_hash":"cc0c226e4ee4432de9f7cde9c9d3174cc6a929c00e2891f89d6be3ac78595e9e","proof":8076,"transactions":[{"amount":99.0,"recipient":"m","sender":"a"},{"amount":1.0,"recipient":"fb10c63c36f04ffebf641669905d2ce4","sender":"0"}],"ts":1639937473970},{"index":5,"previous_hash":"71964da03df6fe8cf41dce8074405cc6b408a9e70443aa778f4269aa953d0fe8","proof":8298,"transactions":[{"amount":99.0,"recipient":"m","sender":"a"},{"amount":99.0,"recipient":"m","sender":"a"},{"amount":9.0,"recipient":"m","sender":"a"},{"amount":1.0,"recipient":"fb10c63c36f04ffebf641669905d2ce4","sender":"0"}],"ts":1639937543643}],"length":5,"message":"our chain is authoritative"}
+>>> r= requests.get("http://localhost:6002/nodes/resolve")
+>>> print(r.text)
+{"chain":[{"index":1,"previous_hash":"1","proof":100,"transactions":null,"ts":1639937806418},{"index":2,"previous_hash":"b8d931dea266c6a4632a5bb3982d56cc23f1ccbcc305be1b3c73ef1f9cdcf089","proof":112711,"transactions":[{"amount":1.0,"recipient":"2e6666e22c094a3683dde249f20eadb6","sender":"0"}],"ts":1639937820971},{"index":3,"previous_hash":"d317440f1be4eb05a5449352b183f412394180e516da8775d8729745bce47ea5","proof":18476,"transactions":[{"amount":9.0,"recipient":"m","sender":"a"},{"amount":1.0,"recipient":"2e6666e22c094a3683dde249f20eadb6","sender":"0"}],"ts":1639937981881}],"length":3,"message":"our chain is authoritative"}
+>>> r= requests.get("http://localhost:6001/nodes/resolve")
+>>> print(r.text)
+{"chain":[{"index":1,"previous_hash":"1","proof":100,"transactions":null,"ts":1639937766508},{"index":2,"previous_hash":"fc23ea20cda99de78df81ae9828ab6d6df75573bd59e24753180cd1b1a8a5d60","proof":36906,"transactions":[{"amount":1.0,"recipient":"a4ddc9b586d141d8a9a7777e8fdf91f5","sender":"0"}],"ts":1639937839078},{"index":3,"previous_hash":"a9293e12e0259f49ab88334aa9a961d6fceb78b987acdf1e2a28484d2408d734","proof":224444,"transactions":[{"amount":9.0,"recipient":"m","sender":"a"},{"amount":1.0,"recipient":"a4ddc9b586d141d8a9a7777e8fdf91f5","sender":"0"}],"ts":1639937973012}],"length":3,"message":"our chain is authoritative"}
+>>> r= requests.get("http://localhost:6001/chain")
+>>> r= requests.get("http://localhost:6002/chain")
+>>> print(r.text)
+{"chain":[{"index":1,"previous_hash":"1","proof":100,"transactions":null,"ts":1639937806418},{"index":2,"previous_hash":"b8d931dea266c6a4632a5bb3982d56cc23f1ccbcc305be1b3c73ef1f9cdcf089","proof":112711,"transactions":[{"amount":1.0,"recipient":"2e6666e22c094a3683dde249f20eadb6","sender":"0"}],"ts":1639937820971},{"index":3,"previous_hash":"d317440f1be4eb05a5449352b183f412394180e516da8775d8729745bce47ea5","proof":18476,"transactions":[{"amount":9.0,"recipient":"m","sender":"a"},{"amount":1.0,"recipient":"2e6666e22c094a3683dde249f20eadb6","sender":"0"}],"ts":1639937981881}],"length":3}
+>>> r= requests.get("http://localhost:6002/mine")
+^[[Ar= requests.get("http://localhost:6001/mine")
+^[[A>>> r= requests.get("http://localhost:6000/mine")
+>>> r= requests.get("http://localhost:6002/chain")
+>>> print(r.text)
+{"chain":[{"index":1,"previous_hash":"1","proof":100,"transactions":null,"ts":1639937806418},{"index":2,"previous_hash":"b8d931dea266c6a4632a5bb3982d56cc23f1ccbcc305be1b3c73ef1f9cdcf089","proof":112711,"transactions":[{"amount":1.0,"recipient":"2e6666e22c094a3683dde249f20eadb6","sender":"0"}],"ts":1639937820971},{"index":3,"previous_hash":"d317440f1be4eb05a5449352b183f412394180e516da8775d8729745bce47ea5","proof":18476,"transactions":[{"amount":9.0,"recipient":"m","sender":"a"},{"amount":1.0,"recipient":"2e6666e22c094a3683dde249f20eadb6","sender":"0"}],"ts":1639937981881},{"index":4,"previous_hash":"23361fac1f40e3f557543ddefa31bfadd539fb65e29492d8fcd934a4067e8a2c","proof":76061,"transactions":[{"amount":1.0,"recipient":"2e6666e22c094a3683dde249f20eadb6","sender":"0"}],"ts":1639938155489}],"length":4}
+>>> r= requests.get("http://localhost:6001/chain")
+>>> print(r.text)
+{"chain":[{"index":1,"previous_hash":"1","proof":100,"transactions":null,"ts":1639937766508},{"index":2,"previous_hash":"fc23ea20cda99de78df81ae9828ab6d6df75573bd59e24753180cd1b1a8a5d60","proof":36906,"transactions":[{"amount":1.0,"recipient":"a4ddc9b586d141d8a9a7777e8fdf91f5","sender":"0"}],"ts":1639937839078},{"index":3,"previous_hash":"a9293e12e0259f49ab88334aa9a961d6fceb78b987acdf1e2a28484d2408d734","proof":224444,"transactions":[{"amount":9.0,"recipient":"m","sender":"a"},{"amount":1.0,"recipient":"a4ddc9b586d141d8a9a7777e8fdf91f5","sender":"0"}],"ts":1639937973012},{"index":4,"previous_hash":"52e8744a2a9bc2be7316377be3ee66336497513f08d52ecdec56d4bccadb7166","proof":86399,"transactions":[{"amount":1.0,"recipient":"a4ddc9b586d141d8a9a7777e8fdf91f5","sender":"0"}],"ts":1639938165420}],"length":4}
+>>> r= requests.get("http://localhost:6000/chain")
+>>> print(r.text)
+{"chain":[{"index":1,"previous_hash":"1","proof":100,"transactions":null,"ts":1639935864809},{"index":2,"previous_hash":"d379be4b35800a04a65184c35480035626fc381002b1252afa00f96fc91ea64e","proof":119339,"transactions":[{"amount":1.0,"recipient":"fb10c63c36f04ffebf641669905d2ce4","sender":"0"}],"ts":1639935985812},{"index":3,"previous_hash":"b886ffe9e1ea7677a0507f31f08fb4cd71d68ec1e533c1cb78840f3b1c4fdaba","proof":10428,"transactions":[{"amount":1.0,"recipient":"fb10c63c36f04ffebf641669905d2ce4","sender":"0"}],"ts":1639936028649},{"index":4,"previous_hash":"cc0c226e4ee4432de9f7cde9c9d3174cc6a929c00e2891f89d6be3ac78595e9e","proof":8076,"transactions":[{"amount":99.0,"recipient":"m","sender":"a"},{"amount":1.0,"recipient":"fb10c63c36f04ffebf641669905d2ce4","sender":"0"}],"ts":1639937473970},{"index":5,"previous_hash":"71964da03df6fe8cf41dce8074405cc6b408a9e70443aa778f4269aa953d0fe8","proof":8298,"transactions":[{"amount":99.0,"recipient":"m","sender":"a"},{"amount":99.0,"recipient":"m","sender":"a"},{"amount":9.0,"recipient":"m","sender":"a"},{"amount":1.0,"recipient":"fb10c63c36f04ffebf641669905d2ce4","sender":"0"}],"ts":1639937543643},{"index":6,"previous_hash":"597e7ed2d18a0914bdfa67d659f154959a0bb808faf61c87d97316296f45211d","proof":119887,"transactions":[{"amount":1.0,"recipient":"fb10c63c36f04ffebf641669905d2ce4","sender":"0"}],"ts":1639938171413}],"length":6}
+>>> r=requests.post(url3, data=json.dumps(payload1))
+>>> r=requests.post(url3, data=json.dumps(payload))
+>>> r=requests.post(url2, data=json.dumps(payload))
+>>> r= requests.get("http://localhost:6001/mine")
+^[[Ar= requests.get("http://localhost:6002/mine")
+>>> r= requests.get("http://localhost:6000/mine")
+>>> url4 = 'http://localhost:6001/nodes/resolve' 
+>>> r= requests.get("http://localhost:6002/nodes/resolve")
+>>> print(r.text)
+{"chain":[{"index":1,"previous_hash":"1","proof":100,"transactions":null,"ts":1639937806418},{"index":2,"previous_hash":"b8d931dea266c6a4632a5bb3982d56cc23f1ccbcc305be1b3c73ef1f9cdcf089","proof":112711,"transactions":[{"amount":1.0,"recipient":"2e6666e22c094a3683dde249f20eadb6","sender":"0"}],"ts":1639937820971},{"index":3,"previous_hash":"d317440f1be4eb05a5449352b183f412394180e516da8775d8729745bce47ea5","proof":18476,"transactions":[{"amount":9.0,"recipient":"m","sender":"a"},{"amount":1.0,"recipient":"2e6666e22c094a3683dde249f20eadb6","sender":"0"}],"ts":1639937981881},{"index":4,"previous_hash":"23361fac1f40e3f557543ddefa31bfadd539fb65e29492d8fcd934a4067e8a2c","proof":76061,"transactions":[{"amount":1.0,"recipient":"2e6666e22c094a3683dde249f20eadb6","sender":"0"}],"ts":1639938155489},{"index":5,"previous_hash":"24ec495354705276da71b1f52e9ecac03076c2f6e02a55c4b07303d2387259dd","proof":12706,"transactions":[{"amount":9.0,"recipient":"m","sender":"a"},{"amount":1.0,"recipient":"2e6666e22c094a3683dde249f20eadb6","sender":"0"}],"ts":1639938298980}],"length":5,"message":"our chain is authoritative"}
+>>> r= requests.get("http://localhost:6001/nodes/resolve")
+>>> print(r.text)
+{"chain":[{"index":1,"previous_hash":"1","proof":100,"transactions":null,"ts":1639937766508},{"index":2,"previous_hash":"fc23ea20cda99de78df81ae9828ab6d6df75573bd59e24753180cd1b1a8a5d60","proof":36906,"transactions":[{"amount":1.0,"recipient":"a4ddc9b586d141d8a9a7777e8fdf91f5","sender":"0"}],"ts":1639937839078},{"index":3,"previous_hash":"a9293e12e0259f49ab88334aa9a961d6fceb78b987acdf1e2a28484d2408d734","proof":224444,"transactions":[{"amount":9.0,"recipient":"m","sender":"a"},{"amount":1.0,"recipient":"a4ddc9b586d141d8a9a7777e8fdf91f5","sender":"0"}],"ts":1639937973012},{"index":4,"previous_hash":"52e8744a2a9bc2be7316377be3ee66336497513f08d52ecdec56d4bccadb7166","proof":86399,"transactions":[{"amount":1.0,"recipient":"a4ddc9b586d141d8a9a7777e8fdf91f5","sender":"0"}],"ts":1639938165420},{"index":5,"previous_hash":"cf88d7aca58459112a290c1d9a8f6b438cf370a3c1caa23ac28a74a1e5c88209","proof":126117,"transactions":[{"amount":9.0,"recipient":"m","sender":"a"},{"amount":1.0,"recipient":"a4ddc9b586d141d8a9a7777e8fdf91f5","sender":"0"}],"ts":1639938293673}],"length":5,"message":"our chain is authoritative"}
+>>> r= requests.get("http://localhost:6000/nodes/resolve")
+>>> print(r.text)
+{"chain":[{"index":1,"previous_hash":"1","proof":100,"transactions":null,"ts":1639935864809},{"index":2,"previous_hash":"d379be4b35800a04a65184c35480035626fc381002b1252afa00f96fc91ea64e","proof":119339,"transactions":[{"amount":1.0,"recipient":"fb10c63c36f04ffebf641669905d2ce4","sender":"0"}],"ts":1639935985812},{"index":3,"previous_hash":"b886ffe9e1ea7677a0507f31f08fb4cd71d68ec1e533c1cb78840f3b1c4fdaba","proof":10428,"transactions":[{"amount":1.0,"recipient":"fb10c63c36f04ffebf641669905d2ce4","sender":"0"}],"ts":1639936028649},{"index":4,"previous_hash":"cc0c226e4ee4432de9f7cde9c9d3174cc6a929c00e2891f89d6be3ac78595e9e","proof":8076,"transactions":[{"amount":99.0,"recipient":"m","sender":"a"},{"amount":1.0,"recipient":"fb10c63c36f04ffebf641669905d2ce4","sender":"0"}],"ts":1639937473970},{"index":5,"previous_hash":"71964da03df6fe8cf41dce8074405cc6b408a9e70443aa778f4269aa953d0fe8","proof":8298,"transactions":[{"amount":99.0,"recipient":"m","sender":"a"},{"amount":99.0,"recipient":"m","sender":"a"},{"amount":9.0,"recipient":"m","sender":"a"},{"amount":1.0,"recipient":"fb10c63c36f04ffebf641669905d2ce4","sender":"0"}],"ts":1639937543643},{"index":6,"previous_hash":"597e7ed2d18a0914bdfa67d659f154959a0bb808faf61c87d97316296f45211d","proof":119887,"transactions":[{"amount":1.0,"recipient":"fb10c63c36f04ffebf641669905d2ce4","sender":"0"}],"ts":1639938171413},{"index":7,"previous_hash":"743fdf25289b3408ebec1ff2cd23955f666b3ece6e57afa751c34c30ffde732d","proof":62196,"transactions":[{"amount":1.0,"recipient":"fb10c63c36f04ffebf641669905d2ce4","sender":"0"}],"ts":1639938309153}],"length":7,"message":"our chain is authoritative"}
+>>> 
